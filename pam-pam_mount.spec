@@ -11,6 +11,7 @@ Vendor:		Flyn Computing
 Source0:	http://www.flyn.org/projects/%{modulename}/%{modulename}-%{version}.tar.gz
 # Source0-md5:	392b1d69f36d5f2d053c393594cff9cb
 Patch0:		%{name}-zlib.patch
+Patch1:		%{name}-evp.patch
 URL:		http://www.flyn.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -67,8 +68,8 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %prep
 %setup -q -n %{modulename}-%{version}
-
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
