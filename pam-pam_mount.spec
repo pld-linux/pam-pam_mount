@@ -3,7 +3,7 @@ Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
 Version:	0.9.0
-Release:	2
+Release:	3
 Epoch:		0
 License:	LGPL
 Group:		Base
