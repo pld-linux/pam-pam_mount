@@ -1,7 +1,7 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-pam_mount
-Version:	0.5.16
+Version:	0.9.0
 Release:	1
 License:	LGPL
 Group:		Base
@@ -12,7 +12,7 @@ URL:		http://www.flyn.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRequires:	openssl-devel >= 0.9.7c
+#BuildRequires:	openssl-devel >= 0.9.7c
 BuildRequires:	pam-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -61,7 +61,7 @@ pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %prep
-%setup -q
+%setup -q -n pam_mount-%{version}
 
 %build
 %{__libtoolize}
