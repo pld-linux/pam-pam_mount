@@ -1,0 +1,12 @@
+diff -uNr pam_mount-0.9.20.orig/src/Makefile.am pam_mount-0.9.20/src/Makefile.am
+--- pam_mount-0.9.20.orig/src/Makefile.am	2004-05-11 02:37:52.000000000 +0200
++++ pam_mount-0.9.20/src/Makefile.am	2004-11-23 23:40:28.146459608 +0100
+@@ -42,7 +42,7 @@
+ 
+ # FIXME: misc.c needs to be compiled both with and without libtool
+ pmvarrun_SOURCES = pmvarrun.c misc-nolibtool.c fmt_ptrn-nolibtool.c modifiers-nolibtool.c common-nolibtool.c buffer-nolibtool.c template-nolibtool.c pair-nolibtool.c
+-pmvarrun_LDFLAGS = $(GLIB_LIBS)
++pmvarrun_LDFLAGS = -lz $(GLIB_LIBS)
+ 
+ INCLUDES = -I$(srcdir)/../include @LOCAL_FMT_PTRN_INCLUDES@
+ 
