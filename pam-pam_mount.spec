@@ -3,6 +3,7 @@ Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytko
 Name:		pam-pam_mount
 Version:	0.9.0
 Release:	1
+Epoch:		0
 License:	LGPL
 Group:		Base
 Vendor:		Flyn Computing
