@@ -86,7 +86,7 @@ install -d $RPM_BUILD_ROOT/etc/security
 
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
 
-rm -f $RPM_BUILD_ROOT/lib/security/pam_mount.{la,a}
+rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.{la,a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,5 +95,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) /lib/security/pam_mount.so
+%attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
