@@ -3,20 +3,21 @@ Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
 Version:	0.9.0
-Release:	1
+Release:	2
 Epoch:		0
 License:	LGPL
 Group:		Base
 Vendor:		Flyn Computing
 Source0:	http://www.flyn.org/projects/%{modulename}/%{modulename}.tar.gz
 # Source0-md5:	299b6c576979bd7cbbe1322871d63c11
+Patch0:		%{name}-types.patch
 URL:		http://www.flyn.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7c
 BuildRequires:	pam-devel
-Obsoletes:	%{modulename}
+Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -65,20 +66,27 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %prep
 %setup -q -n %{modulename}-%{version}
+%patch -p1
 
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/security
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
+
+rm -f $RPM_BUILD_ROOT/lib/security/pam_mount.{la,a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +94,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
-%attr(755,root,root) /lib/security/pam_mount.so
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) /lib/security/pam_mount.so
+%config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
