@@ -75,13 +75,15 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 %{__autoheader}
 %{__automake}
 %configure
-%{__make}
+%{__make} \
+	PAM_MODDIR=%{_lib}/security
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/security
 
 %{__make} install \
+	PAM_MODDIR=%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
