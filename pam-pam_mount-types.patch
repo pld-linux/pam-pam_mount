@@ -1,0 +1,20 @@
+--- pam_mount-0.9.0/src/dotconf.c.orig	2002-10-04 19:42:02.000000000 +0000
++++ pam_mount-0.9.0/src/dotconf.c	2003-11-25 19:19:42.000000000 +0000
+@@ -506,7 +506,7 @@
+ 		signed char *cp = args;
+ 
+ 		/* check if it's a here-document and act accordingly */
+-		skip_whitespace(&cp, (int)eob - (int)cp, 0);
++		skip_whitespace(&cp, (int)(eob - cp), 0);
+ 
+ 		if (!strncmp("<<", cp, 2)) {
+ 			cmd->data.str = dotconf_get_here_document(configfile, cp + 2);
+@@ -605,7 +605,7 @@
+ 	cp1 = buffer;
+ 	eob = cp1 + strlen(cp1);
+ 
+-	skip_whitespace(&cp1, (int)eob - (int)cp1, 0);
++	skip_whitespace(&cp1, (int)(eob - cp1), 0);
+ 
+ 	/* ignore comments and empty lines */
+ 	if (!cp1 || !*cp1 || *cp1 == '#' || *cp1 == '\n' || *cp1 == EOF)
