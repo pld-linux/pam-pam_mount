@@ -6,7 +6,7 @@ Release:	1
 License:	LGPL
 Group:		Base
 Vendor:		Flyn Computing
-Source0:	http://www.flyn.org/projects/pam_mount/%{name}.tar.gz
+Source0:	http://www.flyn.org/projects/pam_mount/pam_mount.tar.gz
 # Source0-md5:	299b6c576979bd7cbbe1322871d63c11
 URL:		http://www.flyn.org/
 BuildRequires:	autoconf
