@@ -3,19 +3,21 @@ Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
 Version:	0.9.20
-Release:	0.1
+Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
 Vendor:		Flyn Computing
 Source0:	http://www.flyn.org/projects/%{modulename}/%{modulename}-%{version}.tar.gz
 # Source0-md5:	392b1d69f36d5f2d053c393594cff9cb
+Patch0:		%{name}-zlib.patch
 URL:		http://www.flyn.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
+BuildRequires:	zlib-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,6 +68,8 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 %prep
 %setup -q -n %{modulename}-%{version}
 
+%patch0 -p1
+
 %build
 %{__libtoolize}
 %{__aclocal}
@@ -94,5 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
+%{_mandir}/man8/*
