@@ -47,9 +47,9 @@ this can be extended very easily.
 %description -l pl
 Przeznaczeniem tego modu³u s± ¶rodowiska z protoko³em SMB (Samba lub
 Windows NT) i/lub NCP (Netware lub Mars-NWE), w których u¿ytkownicy
-chc± lub potrzebuj± takich zasobów. Modu³ ten wspiera tak¿e mountowanie
-katalogów domowych z zaszyfrowanych systemów plików przy u¿yciu
-loopbacka (zobacz tak¿e:
+chc± lub potrzebuj± takich zasobów. Modu³ ten wspiera tak¿e
+mountowanie katalogów domowych z zaszyfrowanych systemów plików przy
+u¿yciu loopbacka (zobacz tak¿e:
 http://www.tldp.org/HOWTO/Loopback-Encrypted-Filesystem-HOWTO.html).
  - ka¿dy u¿ytkownik ma dostêp do swoich zasobów
  - u¿ytkownik musi wpisaæ swoje has³o tylko raz (przy logowaniu) (*)
@@ -61,7 +61,8 @@ http://www.tldp.org/HOWTO/Loopback-Encrypted-Filesystem-HOWTO.html).
    automounta/supermounta. Jest to tak¿e konieczne do zabezpieczenia
    zaszyfrowanych systemów plików.
 
-(*) Oczywi¶cie has³o na lokalnym i zdalnym systemie musi byæ identyczne ;)
+(*) Oczywi¶cie has³o na lokalnym i zdalnym systemie musi byæ
+identyczne ;)
 
 pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
@@ -101,5 +102,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
-%config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
 %{_mandir}/man8/*
