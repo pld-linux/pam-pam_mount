@@ -1,6 +1,6 @@
 %define 	modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
-Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
+Summary(pl):	Modu³ PAM, pozwalaj±cy montowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
 Version:	0.13.0
 Release:	1
@@ -46,15 +46,15 @@ this can be extended very easily.
 %description -l pl
 Przeznaczeniem tego modu³u s± ¶rodowiska z protoko³em SMB (Samba lub
 Windows NT) i/lub NCP (Netware lub Mars-NWE), w których u¿ytkownicy
-chc± lub potrzebuj± takich zasobów. Modu³ ten wspiera tak¿e
-mountowanie katalogów domowych z zaszyfrowanych systemów plików przy
+chc± lub potrzebuj± indywidualnych zasobów. Modu³ ten wspiera tak¿e
+montowanie katalogów domowych z zaszyfrowanych systemów plików przy
 u¿yciu loopbacka (zobacz tak¿e:
 http://www.tldp.org/HOWTO/Loopback-Encrypted-Filesystem-HOWTO.html).
  - ka¿dy u¿ytkownik ma dostêp do swoich zasobów
  - u¿ytkownik musi wpisaæ swoje has³o tylko raz (przy logowaniu) (*)
- - proces mountowania jest niewidzialny dla u¿ytkownika
+ - proces montowania jest niewidzialny dla u¿ytkownika
  - nie ma potrzeby trzymania has³a i loginu w ¿adnym dodatkowym pliku
- - katalogi s± odmountowywane podczas wylogowania, co oszczêdza zasoby
+ - katalogi s± odmontowywane podczas wylogowania, co oszczêdza zasoby
    systemowe, zabezpiecza przed konieczno¶ci± umieszczenia ka¿dego
    potrzebnego zdalnego zasobu w /etc/fstab lub w konfiguracji
    automounta/supermounta. Jest to tak¿e konieczne do zabezpieczenia
