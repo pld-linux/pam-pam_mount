@@ -2,22 +2,21 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
-Version:	0.9.20
-Release:	2
+Version:	0.13.0
+Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
-Vendor:		Flyn Computing
-Source0:	http://www.flyn.org/projects/%{modulename}/%{modulename}-%{version}.tar.gz
-# Source0-md5:	392b1d69f36d5f2d053c393594cff9cb
-Patch0:		%{name}-zlib.patch
-Patch1:		%{name}-evp.patch
-URL:		http://www.flyn.org/
+Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tbz2
+# Source0-md5:	a1a09d403e27b73ab848b5ba76071d19
+URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	glib2-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
+BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -69,8 +68,6 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %prep
 %setup -q -n %{modulename}-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -83,13 +80,14 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/security
+install -d $RPM_BUILD_ROOT{/etc/security,/sbin}
 
 %{__make} install \
 	moduledir=/%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
+ln -sf %{_bindir}/mount.crypt $RPM_BUILD_ROOT/sbin
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.{la,a}
 
@@ -98,9 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) /sbin/*
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
 %{_mandir}/man8/*
