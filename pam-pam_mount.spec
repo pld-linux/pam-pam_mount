@@ -97,9 +97,19 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog FAQ NEWS README TODO
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) /sbin/*
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
-%{_mandir}/man8/*
+%attr(755,root,root) /sbin/umount.crypt
+%attr(755,root,root) %{_bindir}/autoehd
+%attr(755,root,root) %{_bindir}/mkehd
+%attr(755,root,root) %{_bindir}/mount_ehd
+%attr(755,root,root) %{_bindir}/passwdehd
+%attr(755,root,root) %{_sbindir}/pmvarrun
+%{_mandir}/man1/mkehd.1*
+%{_mandir}/man8/autoehd.8*
+%{_mandir}/man8/mount.crypt.8*
+%{_mandir}/man8/mount_ehd.8*
+%{_mandir}/man8/pam_mount.8*
+%{_mandir}/man8/passwdehd.8*
+%{_mandir}/man8/pmvarrun.8*
+%{_mandir}/man8/umount.crypt.8*
