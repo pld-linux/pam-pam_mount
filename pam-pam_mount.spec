@@ -91,6 +91,9 @@ ln -sf %{_bindir}/mount.crypt $RPM_BUILD_ROOT/sbin
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.{la,a}
 
+# void code on non-OpenBSD, besides broken
+rm -f $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -102,13 +105,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/umount.crypt
 %attr(755,root,root) %{_bindir}/autoehd
 %attr(755,root,root) %{_bindir}/mkehd
-%attr(755,root,root) %{_bindir}/mount_ehd
 %attr(755,root,root) %{_bindir}/passwdehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %{_mandir}/man1/mkehd.1*
 %{_mandir}/man8/autoehd.8*
 %{_mandir}/man8/mount.crypt.8*
-%{_mandir}/man8/mount_ehd.8*
 %{_mandir}/man8/pam_mount.8*
 %{_mandir}/man8/passwdehd.8*
 %{_mandir}/man8/pmvarrun.8*
