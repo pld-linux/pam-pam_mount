@@ -1,23 +1,22 @@
 %define 	modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
-Summary(pl):	Modu³ PAM, pozwalaj±cy mountowaæ zdalne zasoby na czas sesji u¿ytkownika
+Summary(pl):	Modu³ PAM, pozwalaj±cy montowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
-Version:	0.9.20
+Version:	0.18
 Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
-Vendor:		Flyn Computing
-Source0:	http://www.flyn.org/projects/%{modulename}/%{modulename}-%{version}.tar.gz
-# Source0-md5:	392b1d69f36d5f2d053c393594cff9cb
-Patch0:		%{name}-zlib.patch
-Patch1:		%{name}-evp.patch
-URL:		http://www.flyn.org/
+Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.bz2
+# Source0-md5:	c2e2a7eee61596a8c72d79d8bba3538d
+URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	glib2-devel
 BuildRequires:	libtool
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
+BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,29 +46,28 @@ this can be extended very easily.
 %description -l pl
 Przeznaczeniem tego modu³u s± ¶rodowiska z protoko³em SMB (Samba lub
 Windows NT) i/lub NCP (Netware lub Mars-NWE), w których u¿ytkownicy
-chc± lub potrzebuj± takich zasobów. Modu³ ten wspiera tak¿e mountowanie
-katalogów domowych z zaszyfrowanych systemów plików przy u¿yciu
-loopbacka (zobacz tak¿e:
+chc± lub potrzebuj± indywidualnych zasobów. Modu³ ten wspiera tak¿e
+montowanie katalogów domowych z zaszyfrowanych systemów plików przy
+u¿yciu loopbacka (zobacz tak¿e:
 http://www.tldp.org/HOWTO/Loopback-Encrypted-Filesystem-HOWTO.html).
  - ka¿dy u¿ytkownik ma dostêp do swoich zasobów
  - u¿ytkownik musi wpisaæ swoje has³o tylko raz (przy logowaniu) (*)
- - proces mountowania jest niewidzialny dla u¿ytkownika
+ - proces montowania jest niewidzialny dla u¿ytkownika
  - nie ma potrzeby trzymania has³a i loginu w ¿adnym dodatkowym pliku
- - katalogi s± odmountowywane podczas wylogowania, co oszczêdza zasoby
+ - katalogi s± odmontowywane podczas wylogowania, co oszczêdza zasoby
    systemowe, zabezpiecza przed konieczno¶ci± umieszczenia ka¿dego
    potrzebnego zdalnego zasobu w /etc/fstab lub w konfiguracji
    automounta/supermounta. Jest to tak¿e konieczne do zabezpieczenia
    zaszyfrowanych systemów plików.
 
-(*) Oczywi¶cie has³o na lokalnym i zdalnym systemie musi byæ identyczne ;)
+(*) Oczywi¶cie has³o na lokalnym i zdalnym systemie musi byæ
+identyczne ;)
 
 pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %prep
 %setup -q -n %{modulename}-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -82,13 +80,14 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/security
+install -d $RPM_BUILD_ROOT{/etc/security,/sbin}
 
 %{__make} install \
 	moduledir=/%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
+ln -sf %{_bindir}/mount.crypt $RPM_BUILD_ROOT/sbin
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.{la,a}
 
@@ -97,9 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) /sbin/*
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
-%config(noreplace) %verify(not md5 size mtime) /etc/security/pam_mount.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
 %{_mandir}/man8/*
