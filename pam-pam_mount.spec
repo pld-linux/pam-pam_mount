@@ -102,6 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
+%attr(755,root,root) /sbin/mount.crypt
 %attr(755,root,root) /sbin/umount.crypt
 %attr(755,root,root) %{_bindir}/autoehd
 %attr(755,root,root) %{_bindir}/mkehd
