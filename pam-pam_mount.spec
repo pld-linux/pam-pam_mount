@@ -3,7 +3,7 @@ Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl):	Modu³ PAM, pozwalaj±cy montowaæ zdalne zasoby na czas sesji u¿ytkownika
 Name:		pam-%{modulename}
 Version:	0.18
-Release:	1
+Release:	2
 Epoch:		0
 License:	LGPL
 Group:		Base
@@ -75,7 +75,8 @@ loopbacku, ale mo¿e byæ rozszerzony w prosty sposób.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%configure
+%configure \
+	--disable-static
 %{__make}
 
 %install
@@ -87,9 +88,9 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin}
 	DESTDIR=$RPM_BUILD_ROOT
 
 install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
-ln -sf %{_bindir}/mount.crypt $RPM_BUILD_ROOT/sbin
+ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT/%{_bindir}/mount.crypt
 
-rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.{la,a}
+rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 
 # void code on non-OpenBSD, besides broken
 rm -f $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
@@ -102,9 +103,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
+%attr(755,root,root) /sbin/mount.crypt
 %attr(755,root,root) /sbin/umount.crypt
 %attr(755,root,root) %{_bindir}/autoehd
 %attr(755,root,root) %{_bindir}/mkehd
+%attr(755,root,root) %{_bindir}/mount.crypt
 %attr(755,root,root) %{_bindir}/passwdehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %{_mandir}/man1/mkehd.1*
