@@ -1,6 +1,6 @@
 %define 	modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
-Summary(pl):	Modu≥ PAM, pozwalaj±cy montowaÊ zdalne zasoby na czas sesji uøytkownika
+Summary(pl.UTF-8):   Modu≈Ç PAM, pozwalajƒÖcy montowaƒá zdalne zasoby na czas sesji u≈ºytkownika
 Name:		pam-%{modulename}
 Version:	0.18
 Release:	2
@@ -43,28 +43,28 @@ servers must be the same ;)
 Pam_mount "understands" SMB, NCP, and encrypted loopback volumes, but
 this can be extended very easily.
 
-%description -l pl
-Przeznaczeniem tego modu≥u s± ∂rodowiska z protoko≥em SMB (Samba lub
-Windows NT) i/lub NCP (Netware lub Mars-NWE), w ktÛrych uøytkownicy
-chc± lub potrzebuj± indywidualnych zasobÛw. Modu≥ ten wspiera takøe
-montowanie katalogÛw domowych z zaszyfrowanych systemÛw plikÛw przy
-uøyciu loopbacka (zobacz takøe:
+%description -l pl.UTF-8
+Przeznaczeniem tego modu≈Çu sƒÖ ≈õrodowiska z protoko≈Çem SMB (Samba lub
+Windows NT) i/lub NCP (Netware lub Mars-NWE), w kt√≥rych u≈ºytkownicy
+chcƒÖ lub potrzebujƒÖ indywidualnych zasob√≥w. Modu≈Ç ten wspiera tak≈ºe
+montowanie katalog√≥w domowych z zaszyfrowanych system√≥w plik√≥w przy
+u≈ºyciu loopbacka (zobacz tak≈ºe:
 http://www.tldp.org/HOWTO/Loopback-Encrypted-Filesystem-HOWTO.html).
- - kaødy uøytkownik ma dostÍp do swoich zasobÛw
- - uøytkownik musi wpisaÊ swoje has≥o tylko raz (przy logowaniu) (*)
- - proces montowania jest niewidzialny dla uøytkownika
- - nie ma potrzeby trzymania has≥a i loginu w øadnym dodatkowym pliku
- - katalogi s± odmontowywane podczas wylogowania, co oszczÍdza zasoby
-   systemowe, zabezpiecza przed konieczno∂ci± umieszczenia kaødego
+ - ka≈ºdy u≈ºytkownik ma dostƒôp do swoich zasob√≥w
+ - u≈ºytkownik musi wpisaƒá swoje has≈Ço tylko raz (przy logowaniu) (*)
+ - proces montowania jest niewidzialny dla u≈ºytkownika
+ - nie ma potrzeby trzymania has≈Ça i loginu w ≈ºadnym dodatkowym pliku
+ - katalogi sƒÖ odmontowywane podczas wylogowania, co oszczƒôdza zasoby
+   systemowe, zabezpiecza przed konieczno≈õciƒÖ umieszczenia ka≈ºdego
    potrzebnego zdalnego zasobu w /etc/fstab lub w konfiguracji
-   automounta/supermounta. Jest to takøe konieczne do zabezpieczenia
-   zaszyfrowanych systemÛw plikÛw.
+   automounta/supermounta. Jest to tak≈ºe konieczne do zabezpieczenia
+   zaszyfrowanych system√≥w plik√≥w.
 
-(*) Oczywi∂cie has≥o na lokalnym i zdalnym systemie musi byÊ
+(*) Oczywi≈õcie has≈Ço na lokalnym i zdalnym systemie musi byƒá
 identyczne ;)
 
-pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plikÛw po
-loopbacku, ale moøe byÊ rozszerzony w prosty sposÛb.
+pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plik√≥w po
+loopbacku, ale mo≈ºe byƒá rozszerzony w prosty spos√≥b.
 
 %prep
 %setup -q -n %{modulename}-%{version}
