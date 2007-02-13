@@ -1,6 +1,6 @@
 %define 	modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
-Summary(pl.UTF-8):   Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
+Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
 Version:	0.18
 Release:	2
