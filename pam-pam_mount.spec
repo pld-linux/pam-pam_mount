@@ -2,13 +2,13 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	0.18
-Release:	2
+Version:	0.32
+Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
 Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.bz2
-# Source0-md5:	c2e2a7eee61596a8c72d79d8bba3538d
+# Source0-md5:	a23dcbe28a745173bda68b17931219c9
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -18,6 +18,7 @@ BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
+BuildRequires:	libHX-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -87,7 +88,7 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin}
 	moduledir=/%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install config/pam_mount.conf $RPM_BUILD_ROOT/etc/security
+install config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT/%{_bindir}/mount.crypt
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
@@ -95,20 +96,22 @@ rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 # void code on non-OpenBSD, besides broken
 rm -f $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
 
+install scripts/convert_pam_mount_conf.pl $RPM_BUILD_ROOT%{_sbindir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
-%config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf.xml
 %attr(755,root,root) /sbin/mount.crypt
 %attr(755,root,root) /sbin/umount.crypt
 %attr(755,root,root) %{_bindir}/autoehd
 %attr(755,root,root) %{_bindir}/mkehd
 %attr(755,root,root) %{_bindir}/mount.crypt
 %attr(755,root,root) %{_bindir}/passwdehd
+%attr(755,root,root) %{_sbindir}/convert_pam_mount_conf.pl
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %{_mandir}/man1/mkehd.1*
 %{_mandir}/man8/autoehd.8*
