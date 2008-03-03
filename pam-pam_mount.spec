@@ -2,13 +2,13 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	0.32
+Version:	0.33
 Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
 Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.bz2
-# Source0-md5:	a23dcbe28a745173bda68b17931219c9
+# Source0-md5:	08beec698dd95fc88e119848002a4e2e
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
