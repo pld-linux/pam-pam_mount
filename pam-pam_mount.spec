@@ -2,18 +2,19 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	0.33
-Release:	2
+Version:	1.2
+Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
-Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.bz2
-# Source0-md5:	08beec698dd95fc88e119848002a4e2e
+Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.lzma
+# Source0-md5:	7386eeb6ea3b7f4b21e30fd98dab0828
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	glib2-devel
 BuildRequires:	libtool
+BuildRequires:	libxml2-devel
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
@@ -68,7 +69,9 @@ pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale może być rozszerzony w prosty sposób.
 
 %prep
-%setup -q -n %{modulename}-%{version}
+%setup -q -c -T
+lzma -dc %{SOURCE0} | tar xf - -C .
+mv pam_mount*/* .
 
 %build
 %{__libtoolize}
@@ -96,8 +99,6 @@ rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 # void code on non-OpenBSD, besides broken
 rm -f $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
 
-install scripts/convert_pam_mount_conf.pl $RPM_BUILD_ROOT%{_sbindir}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -105,18 +106,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf.xml
-%attr(755,root,root) /sbin/mount.crypt
-%attr(755,root,root) /sbin/umount.crypt
-%attr(755,root,root) %{_bindir}/autoehd
-%attr(755,root,root) %{_bindir}/mkehd
+%attr(755,root,root) /sbin/mount.*
+%attr(755,root,root) /sbin/umount.*
 %attr(755,root,root) %{_bindir}/mount.crypt
-%attr(755,root,root) %{_bindir}/passwdehd
-%attr(755,root,root) %{_sbindir}/convert_pam_mount_conf.pl
+%attr(755,root,root) %{_bindir}/*-*
 %attr(755,root,root) %{_sbindir}/pmvarrun
-%{_mandir}/man1/mkehd.1*
-%{_mandir}/man8/autoehd.8*
+%attr(755,root,root) %{_sbindir}/*-*
+%{_mandir}/man1/*-*.1*
+%{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
 %{_mandir}/man8/pam_mount.8*
-%{_mandir}/man8/passwdehd.8*
+%{_mandir}/man8/*-*.8*
 %{_mandir}/man8/pmvarrun.8*
 %{_mandir}/man8/umount.crypt.8*
