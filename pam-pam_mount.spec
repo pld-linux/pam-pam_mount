@@ -13,13 +13,14 @@ URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	glib2-devel
+BuildRequires:	libHX-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
+BuildRequires:	lzma >= 1:4.42
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
-BuildRequires:	libHX-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
