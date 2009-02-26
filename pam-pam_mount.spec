@@ -2,13 +2,13 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	1.2
-Release:	2
+Version:	1.18
+Release:	1
 Epoch:		0
 License:	LGPL
 Group:		Base
-Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.lzma
-# Source0-md5:	7386eeb6ea3b7f4b21e30fd98dab0828
+Source0:	http://dl.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.bz2
+# Source0-md5:	209a0e73d1b71e4fc724f2f3be695119
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -16,7 +16,6 @@ BuildRequires:	glib2-devel
 BuildRequires:	libHX-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
-BuildRequires:	lzma >= 1:4.42
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
@@ -70,9 +69,7 @@ pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale może być rozszerzony w prosty sposób.
 
 %prep
-%setup -q -c -T
-lzma -dc %{SOURCE0} | tar xf - -C .
-mv pam_mount*/* .
+%setup -q -n %{modulename}-%{version}
 
 %build
 %{__libtoolize}
@@ -93,7 +90,7 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin}
 	DESTDIR=$RPM_BUILD_ROOT
 
 install config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
-ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT/%{_bindir}/mount.crypt
+ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 
@@ -107,16 +104,26 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf.xml
-%attr(755,root,root) /sbin/mount.*
-%attr(755,root,root) /sbin/umount.*
+%attr(755,root,root) /sbin/mount.crypt
+%attr(755,root,root) /sbin/mount.crypt_LUKS
+%attr(755,root,root) /sbin/mount.crypto_LUKS
+%attr(755,root,root) /sbin/mount.encfs13
+%attr(755,root,root) /sbin/umount.crypt
+%attr(755,root,root) /sbin/umount.crypt_LUKS
+%attr(755,root,root) /sbin/umount.crypto_LUKS
 %attr(755,root,root) %{_bindir}/mount.crypt
-%attr(755,root,root) %{_bindir}/*-*
+%attr(755,root,root) %{_bindir}/pmt-fd0ssh
+%attr(755,root,root) %{_bindir}/pmt-ofl
+%attr(755,root,root) %{_sbindir}/pmt-ehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
-%attr(755,root,root) %{_sbindir}/*-*
-%{_mandir}/man1/*-*.1*
+%{_mandir}/man1/pmt-fd0ssh.1*
 %{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
+%{_mandir}/man8/mount.crypt_LUKS.8
+%{_mandir}/man8/mount.crypto_LUKS.8
 %{_mandir}/man8/pam_mount.8*
-%{_mandir}/man8/*-*.8*
+%{_mandir}/man8/pmt-ehd.8*
 %{_mandir}/man8/pmvarrun.8*
 %{_mandir}/man8/umount.crypt.8*
+%{_mandir}/man8/umount.crypt_LUKS.8
+%{_mandir}/man8/umount.crypto_LUKS.8
