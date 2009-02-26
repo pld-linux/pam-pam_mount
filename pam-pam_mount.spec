@@ -1,9 +1,13 @@
+# TODO
+# - man -l pam_mount.8 | perl -pe 's/.\cH//g' >pam_mount.txt;
+#   man: invalid option -- 'l'
+#   man, version 1.6f
 %define 	modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
 Version:	1.18
-Release:	1
+Release:	2
 Epoch:		0
 License:	LGPL
 Group:		Base
@@ -73,7 +77,7 @@ loopbacku, ale może być rozszerzony w prosty sposób.
 
 %build
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
