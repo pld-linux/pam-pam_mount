@@ -123,11 +123,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/pmt-fd0ssh.1*
 %{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
-%{_mandir}/man8/mount.crypt_LUKS.8
-%{_mandir}/man8/mount.crypto_LUKS.8
+%{_mandir}/man8/mount.crypt_LUKS.8*
+%{_mandir}/man8/mount.crypto_LUKS.8*
 %{_mandir}/man8/pam_mount.8*
 %{_mandir}/man8/pmt-ehd.8*
 %{_mandir}/man8/pmvarrun.8*
 %{_mandir}/man8/umount.crypt.8*
-%{_mandir}/man8/umount.crypt_LUKS.8
-%{_mandir}/man8/umount.crypto_LUKS.8
+%{_mandir}/man8/umount.crypt_LUKS.8*
+%{_mandir}/man8/umount.crypto_LUKS.8*
