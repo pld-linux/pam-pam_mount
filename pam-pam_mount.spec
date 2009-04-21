@@ -20,7 +20,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	libHX-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
-BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-devel >= 0.9.8
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
