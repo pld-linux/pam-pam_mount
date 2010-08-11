@@ -15,7 +15,7 @@ Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	cryptsetup-luks >= 1.1.2
+BuildRequires:	cryptsetup-luks-devel >= 1.1.2
 BuildRequires:	glib2-devel
 BuildRequires:	libHX-devel >= 3.4
 BuildRequires:	libtool
