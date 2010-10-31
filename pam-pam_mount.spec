@@ -6,18 +6,18 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	2.5
-Release:	2
+Version:	2.6
+Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
-# Source0-md5:	f005ac284ebbd600f8eb2a729da1d644
+# Source0-md5:	afac0e648f3a46ac8aa1febd0d90dc32
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cryptsetup-luks-devel >= 1.1.2
 BuildRequires:	glib2-devel
-BuildRequires:	libHX-devel >= 3.4
+BuildRequires:	libHX-devel >= 3.6
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	openssl-devel >= 0.9.8
@@ -88,19 +88,19 @@ loopbacku, ale może być rozszerzony w prosty sposób.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount}
+install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}}
 
 %{__make} install \
 	moduledir=/%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
+cp -a config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
 
 rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 
 # void code on non-OpenBSD, besides broken
-rm -f $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
+#rm $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -117,12 +117,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /sbin/umount.crypt_LUKS
 %attr(755,root,root) /sbin/umount.crypto_LUKS
 %attr(755,root,root) %{_bindir}/mount.crypt
-%attr(755,root,root) %{_bindir}/pmt-fd0ssh
-%attr(755,root,root) %{_bindir}/pmt-ofl
 %attr(755,root,root) %{_sbindir}/pmt-ehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %dir /var/run/pam_mount
-%{_mandir}/man1/pmt-fd0ssh.1*
 %{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
 %{_mandir}/man8/mount.crypt_LUKS.8*
