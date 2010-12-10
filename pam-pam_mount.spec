@@ -6,12 +6,12 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	2.6
+Version:	2.7
 Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
-# Source0-md5:	afac0e648f3a46ac8aa1febd0d90dc32
+# Source0-md5:	675efcce8c2bb052b998959f3c183c81
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -96,8 +96,6 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}}
 
 cp -a config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
-
-rm -f $RPM_BUILD_ROOT/%{_lib}/security/pam_mount.la
 
 # void code on non-OpenBSD, besides broken
 #rm $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
