@@ -24,6 +24,7 @@ BuildRequires:	openssl-devel >= 0.9.8
 BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz >= 1:4.999.7
 BuildRequires:	zlib-devel
 Obsoletes:	pam_mount
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
