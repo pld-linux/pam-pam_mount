@@ -12,6 +12,7 @@ License:	LGPL
 Group:		Base
 Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
 # Source0-md5:	5a4e5e2df01a239d410925e38c133dd5
+Source1:	%{name}.tmpfiles
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -89,7 +90,8 @@ loopbacku, ale może być rozszerzony w prosty sposób.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}}
+install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}} \
+	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
 %{__make} install \
 	moduledir=/%{_lib}/security \
@@ -97,6 +99,8 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}}
 
 cp -a config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
+
+install %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/pam_mount.conf
 
 # void code on non-OpenBSD, besides broken
 #rm $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
@@ -118,6 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/pmt-ehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %dir /var/run/pam_mount
+/usr/lib/tmpfiles.d/pam_mount.conf
 %{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
 %{_mandir}/man8/mount.crypt_LUKS.8*
