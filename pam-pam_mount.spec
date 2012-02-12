@@ -6,12 +6,12 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	2.12
-Release:	5
+Version:	2.13
+Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
-# Source0-md5:	5a4e5e2df01a239d410925e38c133dd5
+# Source0-md5:	9f75fc8e84ea9cde619cdd6a62c7de33
 Source1:	%{name}.tmpfiles
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
@@ -19,6 +19,7 @@ BuildRequires:	automake
 BuildRequires:	cryptsetup-luks-devel >= 1.1.2
 BuildRequires:	glib2-devel
 BuildRequires:	libHX-devel >= 3.6
+BuildRequires:	libmount-devel >= 2.20
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	openssl-devel >= 0.9.8
@@ -75,6 +76,29 @@ identyczne ;)
 pam_mount "rozumie" SMB, NCP oraz zaszyfrowane systemy plików po
 loopbacku, ale może być rozszerzony w prosty sposób.
 
+%package -n libcryptmount
+Summary:	libcryptmount library
+Summary(pl.UTF-8):	Biblioteka libcryptmount
+Group:		Libraries
+
+%description -n libcryptmount
+libcryptmount library.
+
+%description -n libcryptmount -l pl.UTF-8
+Biblioteka libcryptmount
+
+%package -n libcryptmount-devel
+Summary:	Header files for libcryptmount library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcryptmount
+Group:		Development/Libraries
+Requires:	libcryptmount = %{version}-%{release}
+
+%description -n libcryptmount-devel
+Header files for libcryptmount library.
+
+%description -n libcryptmount-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libcryptmount.
+
 %prep
 %setup -q -n %{modulename}-%{version}
 
@@ -85,28 +109,31 @@ loopbacku, ale może być rozszerzony w prosty sposób.
 %{__autoheader}
 %{__automake}
 %configure \
+	--with-slibdir=/%{_lib} \
 	--disable-static
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}} \
-	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
+	$RPM_BUILD_ROOT%{systemdtmpfilesdir}
 
-%{__make} install \
+%{__make} -j1 install \
 	moduledir=/%{_lib}/security \
 	DESTDIR=$RPM_BUILD_ROOT
 
 cp -a config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
 
-install %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/pam_mount.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/pam_mount.conf
 
-# void code on non-OpenBSD, besides broken
-#rm $RPM_BUILD_ROOT{%{_bindir}/mount_ehd,%{_mandir}/man8/mount_ehd.8}
+rm $RPM_BUILD_ROOT%{_libdir}/libcryptmount.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post   -n libcryptmount -p /sbin/ldconfig
+%postun -n libcryptmount -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -122,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/pmt-ehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
 %dir /var/run/pam_mount
-/usr/lib/tmpfiles.d/pam_mount.conf
+%{systemdtmpfilesdir}/pam_mount.conf
 %{_mandir}/man5/pam_mount.conf.5*
 %{_mandir}/man8/mount.crypt.8*
 %{_mandir}/man8/mount.crypt_LUKS.8*
@@ -133,3 +160,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/umount.crypt.8*
 %{_mandir}/man8/umount.crypt_LUKS.8*
 %{_mandir}/man8/umount.crypto_LUKS.8*
+
+%files -n libcryptmount
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcryptmount.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcryptmount.so.0
+
+%files -n libcryptmount-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcryptmount.so
+%{_includedir}/libcryptmount.h
+%{_pkgconfigdir}/libcryptmount.pc
