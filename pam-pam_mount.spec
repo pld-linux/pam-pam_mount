@@ -2,28 +2,29 @@
 # - man -l pam_mount.8 | perl -pe 's/.\cH//g' >pam_mount.txt;
 #   man: invalid option -- 'l'
 #   man, version 1.6f
-%define 	modulename pam_mount
+%define		modulename pam_mount
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	2.13
+Version:	2.15
 Release:	1
 License:	LGPL
 Group:		Base
 Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
-# Source0-md5:	9f75fc8e84ea9cde619cdd6a62c7de33
+# Source0-md5:	e3bc28c232b980e468ad2c558a76b473
 Source1:	%{name}.tmpfiles
 URL:		http://pam-mount.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	cryptsetup-luks-devel >= 1.1.2
 BuildRequires:	glib2-devel
-BuildRequires:	libHX-devel >= 3.6
+BuildRequires:	libHX-devel >= 3.12.1
 BuildRequires:	libmount-devel >= 2.20
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel
+BuildRequires:	libxml2-devel >= 1:2.6
 BuildRequires:	openssl-devel >= 0.9.8
 BuildRequires:	pam-devel
+BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz >= 1:4.999.7
