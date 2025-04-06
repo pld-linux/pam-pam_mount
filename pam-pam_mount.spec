@@ -6,17 +6,17 @@
 Summary:	A PAM module that can mount remote volumes for a user session
 Summary(pl.UTF-8):	Moduł PAM, pozwalający montować zdalne zasoby na czas sesji użytkownika
 Name:		pam-%{modulename}
-Version:	2.16
-Release:	2
-License:	LGPL
+Version:	2.20
+Release:	1
+License:	LGPL v2.1+ (library and PAM module), GPL v3+ (tools)
 Group:		Base
-Source0:	http://downloads.sourceforge.net/pam-mount/%{modulename}-%{version}.tar.xz
-# Source0-md5:	53f0233c0e7cfb8d35f5bc5b279aa6b8
+Source0:	https://inai.de/files/pam_mount/%{modulename}-%{version}.tar.xz
+# Source0-md5:	31a2275f389ed53f2fd35a82c5899b24
 Source1:	%{name}.tmpfiles
-URL:		http://pam-mount.sourceforge.net/
-BuildRequires:	autoconf
+URL:		https://inai.de/projects/pam_mount/
+BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
-BuildRequires:	cryptsetup-luks-devel >= 1.1.2
+BuildRequires:	cryptsetup-devel >= 1.1.2
 BuildRequires:	glib2-devel
 BuildRequires:	libHX-devel >= 3.12.1
 BuildRequires:	libmount-devel >= 2.20
@@ -24,7 +24,7 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6
 BuildRequires:	openssl-devel >= 0.9.8
 BuildRequires:	pam-devel
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-8-devel
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz >= 1:4.999.7
@@ -93,6 +93,7 @@ Summary:	Header files for libcryptmount library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcryptmount
 Group:		Development/Libraries
 Requires:	libcryptmount = %{version}-%{release}
+Requires:	libHX-devel >= 3.12.1
 
 %description -n libcryptmount-devel
 Header files for libcryptmount library.
@@ -110,13 +111,13 @@ Pliki nagłówkowe biblioteki libcryptmount.
 %{__autoheader}
 %{__automake}
 %configure \
-	--with-slibdir=/%{_lib} \
-	--disable-static
+	--with-rundir=/var/run \
+	--with-slibdir=/%{_lib}
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}} \
+install -d $RPM_BUILD_ROOT{/etc/security,/var/run/pam_mount,%{_bindir}} \
 	$RPM_BUILD_ROOT%{systemdtmpfilesdir}
 
 %{__make} -j1 install \
@@ -126,9 +127,9 @@ install -d $RPM_BUILD_ROOT{/etc/security,/sbin,/var/run/pam_mount,%{_bindir}} \
 cp -a config/pam_mount.conf.xml $RPM_BUILD_ROOT/etc/security
 ln -sf /sbin/mount.crypt $RPM_BUILD_ROOT%{_bindir}/mount.crypt
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/pam_mount.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/pam_mount.conf
 
-rm $RPM_BUILD_ROOT%{_libdir}/libcryptmount.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libcryptmount.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -138,17 +139,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc COPYING doc/{bugs.rst,faq.txt,news.rst,options.txt,todo.txt}
 %attr(755,root,root) /%{_lib}/security/pam_mount.so
 %config(noreplace) %verify(not md5 mtime size) /etc/security/pam_mount.conf.xml
-%attr(755,root,root) /sbin/mount.crypt
-%attr(755,root,root) /sbin/mount.crypt_LUKS
-%attr(755,root,root) /sbin/mount.crypto_LUKS
-%attr(755,root,root) /sbin/umount.crypt
-%attr(755,root,root) /sbin/umount.crypt_LUKS
-%attr(755,root,root) /sbin/umount.crypto_LUKS
 %attr(755,root,root) %{_bindir}/mount.crypt
+%attr(755,root,root) %{_sbindir}/mount.crypt
+%attr(755,root,root) %{_sbindir}/mount.crypt_LUKS
+%attr(755,root,root) %{_sbindir}/mount.crypto_LUKS
 %attr(755,root,root) %{_sbindir}/pmt-ehd
 %attr(755,root,root) %{_sbindir}/pmvarrun
+%attr(755,root,root) %{_sbindir}/umount.crypt
+%attr(755,root,root) %{_sbindir}/umount.crypt_LUKS
+%attr(755,root,root) %{_sbindir}/umount.crypto_LUKS
 %dir /var/run/pam_mount
 %{systemdtmpfilesdir}/pam_mount.conf
 %{_mandir}/man5/pam_mount.conf.5*
@@ -161,6 +163,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/umount.crypt.8*
 %{_mandir}/man8/umount.crypt_LUKS.8*
 %{_mandir}/man8/umount.crypto_LUKS.8*
+
+# TODO: for --with-selinux
+#   /etc/selinux/strict/src/policy/file_contexts/misc/pam_mount.fc
+#   /etc/selinux/strict/src/policy/macros/pam_mount_macros.te
 
 %files -n libcryptmount
 %defattr(644,root,root,755)
